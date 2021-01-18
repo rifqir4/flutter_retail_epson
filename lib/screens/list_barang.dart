@@ -18,7 +18,7 @@ class ListBarangWrapper extends StatelessWidget {
 }
 
 class ListBarang extends StatefulWidget {
-  String kategori;
+  final String kategori;
   ListBarang(this.kategori);
   @override
   _ListBarangState createState() => _ListBarangState();

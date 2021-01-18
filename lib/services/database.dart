@@ -76,7 +76,7 @@ class DatabaseService {
 
   List<Kategori> _kategoriListFromSnapshot(QuerySnapshot snapshot) {
     return snapshot.docs.map((doc) {
-      return Kategori(id: doc.id, nama: doc.get('nama') ?? '');
+      return Kategori(id: doc.id, nama: doc.data()['nama'] ?? '');
     }).toList();
   }
 

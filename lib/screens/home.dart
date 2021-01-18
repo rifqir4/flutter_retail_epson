@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:flutter_retail_epson/services/native.dart';
 import 'dart:io';
 
 import '../models/menu.dart';
@@ -19,9 +21,11 @@ class _HomeState extends State<Home> {
   bool connection = false;
   bool connectionIsChecked = false;
 
+  NativeServices _nativeServices = new NativeServices();
+
   Future<void> _checkconnection() async {
     try {
-      final result = await InternetAddress.lookup('google.com');
+      await InternetAddress.lookup('google.com');
       print("Connected");
       connection = true;
     } on SocketException catch (_) {
@@ -31,6 +35,15 @@ class _HomeState extends State<Home> {
     setState(() {
       connectionIsChecked = true;
     });
+  }
+
+  Future<void> discoverPrinter() async {
+    var response;
+    try {
+      response = await _nativeServices.discoverPrinter();
+    } on PlatformException {
+      print('Failed to get printer');
+    }
   }
 
   @override
@@ -51,13 +64,25 @@ class _HomeState extends State<Home> {
     print(connection);
     return connection
         ? Scaffold(
+            appBar: AppBar(
+                title: Text(
+                  'Beranda',
+                  style: TextStyle(color: Colors.black),
+                ),
+                backgroundColor: Colors.white,
+                actions: [
+                  FlatButton.icon(
+                    onPressed: () => discoverPrinter(),
+                    icon: Icon(Icons.print_outlined),
+                    label: Text('Printer'),
+                  )
+                ]),
             body: Container(
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: <Widget>[
-                  SizedBox(height: 30),
                   Container(
-                    width: 300,
+                    width: 280,
                     child: Image.asset('assets/images/logo.png'),
                   ),
                   SizedBox(height: 10),
