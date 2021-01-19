@@ -3,8 +3,8 @@ import 'package:flutter/services.dart';
 class NativeServices {
   static const MethodChannel _channel = const MethodChannel('com.example.flutter_retail_epson');
 
-  Future discoverPrinter() async {
-    var response = await _channel.invokeMethod('discoverPrinter');
+  Future<String> discoverPrinter() async {
+    String response = await _channel.invokeMethod('discoverPrinter');
     return response;
   }
 

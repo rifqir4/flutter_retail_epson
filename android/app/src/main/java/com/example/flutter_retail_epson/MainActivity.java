@@ -1,6 +1,7 @@
 package com.example.flutter_retail_epson;
 
 import android.Manifest;
+import android.app.Activity;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 
@@ -24,6 +25,8 @@ public class MainActivity extends FlutterActivity implements MethodCallHandler {
     private String CHANNEL = "com.example.flutter_retail_epson";
     private MethodChannel mChannel = null;
 
+    private MethodChannel.Result result = null;
+
     @Override
     public void configureFlutterEngine(@NonNull FlutterEngine flutterEngine) {
         super.configureFlutterEngine(flutterEngine);
@@ -38,6 +41,7 @@ public class MainActivity extends FlutterActivity implements MethodCallHandler {
     public void onMethodCall(@NonNull MethodCall call, @NonNull MethodChannel.Result result) {
         Map<String, Object> args = call.arguments();
         if(call.method.equals("discoverPrinter")) {
+            this.result = result;
             Intent intent = new Intent(this, DiscoverActivity.class);
             startActivityForResult(intent, 0);
         } else if(call.method.equals("checkout")){
@@ -46,6 +50,17 @@ public class MainActivity extends FlutterActivity implements MethodCallHandler {
             result.notImplemented();
         }
 
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if(resultCode == Activity.RESULT_OK){
+            if(requestCode == 0){
+                String target = data.getStringExtra("Target");
+                this.result.success(target);
+            }
+        }
     }
 
     private void requestRuntimePermission() {

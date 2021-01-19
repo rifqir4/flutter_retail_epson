@@ -92,7 +92,7 @@ public class DiscoverActivity extends Activity implements View.OnClickListener, 
         Intent intent = new Intent();
 
         HashMap<String, String> item  = mPrinterList.get(position);
-        //intent.putExtra(getString(R.string.title_target), item.get("Target"));
+        intent.putExtra(getString(R.string.title_target), item.get("Target"));
 
         setResult(RESULT_OK, intent);
 

@@ -37,13 +37,14 @@ class _HomeState extends State<Home> {
     });
   }
 
-  Future<void> discoverPrinter() async {
-    var response;
+  Future<String> discoverPrinter() async {
+    String target;
     try {
-      response = await _nativeServices.discoverPrinter();
+      target = await _nativeServices.discoverPrinter();
     } on PlatformException {
       print('Failed to get printer');
     }
+    return target;
   }
 
   @override
@@ -72,7 +73,9 @@ class _HomeState extends State<Home> {
                 backgroundColor: Colors.white,
                 actions: [
                   FlatButton.icon(
-                    onPressed: () => discoverPrinter(),
+                    onPressed: () {
+                      discoverPrinter().then((value) => print(value));
+                    },
                     icon: Icon(Icons.print_outlined),
                     label: Text('Printer'),
                   )
