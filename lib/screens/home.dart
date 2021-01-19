@@ -40,7 +40,7 @@ class _HomeState extends State<Home> {
   Future<String> discoverPrinter() async {
     String target;
     try {
-      target = await _nativeServices.discoverPrinter();
+      await _nativeServices.discoverPrinter();
     } on PlatformException {
       print('Failed to get printer');
     }
