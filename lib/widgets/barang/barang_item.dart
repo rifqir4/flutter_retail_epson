@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 
 import '../../models/barang.dart';
 import '../../services/database.dart';
@@ -7,6 +8,8 @@ class BarangItem extends StatelessWidget {
   final Barang barang;
   final dynamic showUpdate;
   BarangItem(this.barang, this.showUpdate);
+
+  NumberFormat _format = NumberFormat.currency(locale: "id", symbol: "Rp. ", decimalDigits: 0);
 
   @override
   Widget build(BuildContext context) {
@@ -27,7 +30,7 @@ class BarangItem extends StatelessWidget {
             ),
             Row(
               children: <Widget>[
-                Text('Rp. ${barang.harga}'),
+                Text(_format.format(int.parse(barang.harga))),
                 SizedBox(width: 20),
                 ClipRRect(
                   borderRadius: BorderRadius.all(Radius.circular(5)),

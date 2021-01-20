@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_retail_epson/services/native.dart';
+import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 
 import '../models/barang.dart';
@@ -9,10 +10,26 @@ import 'kasir.dart';
 class Checkout extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+    NumberFormat _format = NumberFormat.currency(locale: "id", symbol: "", decimalDigits: 0);
+
     final _args = ModalRoute.of(context).settings.arguments as Map<String, Object>;
     final List<Barang> keranjang = _args['keranjang'];
     final Pelanggan pelanggan = _args['pelanggan'];
-    final total = _args['total'];
+    final total = _format.format(_args['total']);
+
+    _convertData() {
+      String data = "";
+      for (var i = 0; i < keranjang.length; i++) {
+        data += keranjang[i].nama + ",";
+        data += keranjang[i].jumlah.toString() + "x @" + _format.format(int.parse(keranjang[i].harga)) + "&";
+        data += _format.format(keranjang[i].jumlah * int.parse(keranjang[i].harga)).toString();
+        if (i != keranjang.length - 1) {
+          data += "|";
+        }
+      }
+      print(data);
+      return data;
+    }
 
     print(keranjang);
     return Provider<NativeServices>(
@@ -39,7 +56,7 @@ class Checkout extends StatelessWidget {
                         SizedBox(height: 5),
                         Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: <Widget>[Text('${keranjang[index].jumlah} X @${keranjang[index].harga}'), Text('Rp. ${(keranjang[index].jumlah * int.parse(keranjang[index].harga))}')],
+                          children: <Widget>[Text('${keranjang[index].jumlah} X @${_format.format(int.parse(keranjang[index].harga))}'), Text('Rp. ${_format.format(keranjang[index].jumlah * int.parse(keranjang[index].harga))}')],
                         ),
                         SizedBox(height: 15)
                       ],
@@ -51,10 +68,10 @@ class Checkout extends StatelessWidget {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: <Widget>[
-                    Text('Alamat'),
+                    const Text('Alamat'),
                     Text(pelanggan.alamat),
                     SizedBox(height: 10),
-                    Text('Keterangan'),
+                    const Text('Keterangan'),
                     Text(pelanggan.nama),
                     SizedBox(height: 10),
                     Divider(),
@@ -73,7 +90,18 @@ class Checkout extends StatelessWidget {
                               color: Colors.blue,
                               onPressed: () {
                                 String target = nativeService.targetPrinter;
-                                print(target);
+                                String items = _convertData();
+
+                                Map<String, dynamic> data = {
+                                  "target": target,
+                                  "items": items,
+                                  "total": total,
+                                  "nama": pelanggan.nama,
+                                  "alamat": pelanggan.alamat,
+                                  "ket": pelanggan.keterangan,
+                                };
+                                NativeServices().checkout(data);
+                                print(data);
                               },
                             );
                           },

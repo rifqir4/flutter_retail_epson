@@ -105,13 +105,26 @@ class _FormBarangState extends State<FormBarang> {
                 },
               ),
               SizedBox(height: 20),
-              RaisedButton(
-                child: Text('Tambah'),
-                onPressed: () {
-                  //addBarang(_currNama, _currHarga, _currTipe ?? 'Eceran');
-                  DatabaseService().addDataBarang(_currNama, _currHarga, _currTipe, _currKategori, 'adada', 0, _checkbox);
-                  Navigator.pop(context);
-                },
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceAround,
+                children: [
+                  RaisedButton(
+                    child: Text('Cancel'),
+                    color: Colors.red[100],
+                    onPressed: () {
+                      Navigator.pop(context);
+                    },
+                  ),
+                  RaisedButton(
+                    child: Text('Tambah'),
+                    color: Colors.green[100],
+                    onPressed: () {
+                      //addBarang(_currNama, _currHarga, _currTipe ?? 'Eceran');
+                      DatabaseService().addDataBarang(_currNama, _currHarga, _currTipe, _currKategori, 'adada', 0, _checkbox);
+                      Navigator.pop(context);
+                    },
+                  ),
+                ],
               ),
             ],
           ));

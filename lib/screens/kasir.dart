@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 
 import '../models/barang.dart';
 import '../models/pelanggan.dart';
@@ -13,6 +14,8 @@ class _KasirState extends State<Kasir> {
   List<Barang> keranjang = [];
   Pelanggan pelanggan = Pelanggan(id: '123', nama: 'Rifqi Radifan', alamat: 'Jl. Ikan Piranha Atas', telp: '081334177037', keterangan: 'Didalem');
   int total = 0;
+
+  NumberFormat _format = NumberFormat.currency(locale: "id", symbol: "Rp. ", decimalDigits: 0);
 
   void addBarang(Barang barang) {
     int contain = keranjang.isNotEmpty ? keranjang.indexWhere((element) => element.id == barang.id) : null;
@@ -196,7 +199,7 @@ class _KasirState extends State<Kasir> {
                       padding: EdgeInsets.symmetric(horizontal: 10, vertical: 10),
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: <Widget>[Text('Total:'), Text('Rp. $total')],
+                        children: <Widget>[Text('Total:'), Text(_format.format(total))],
                       ),
                     ),
                     RaisedButton.icon(

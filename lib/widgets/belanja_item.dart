@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 
 import '../models/barang.dart';
 
@@ -9,6 +10,8 @@ class BelanjaItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    NumberFormat _format = NumberFormat.currency(locale: "id", symbol: "Rp. ", decimalDigits: 0);
+
     return Card(
       child: Padding(
         padding: EdgeInsets.all(15),
@@ -24,7 +27,7 @@ class BelanjaItem extends StatelessWidget {
                 ),
               ],
             ),
-            Text('Rp. ${barang.harga}'),
+            Text(_format.format(int.parse(barang.harga))),
             Row(
               children: <Widget>[Icon(Icons.shopping_bag_outlined), Text(' ${barang.jumlah ?? 0}')],
             ),

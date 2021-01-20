@@ -13,6 +13,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+import io.flutter.Log;
 import io.flutter.embedding.android.FlutterActivity;
 import io.flutter.embedding.engine.FlutterEngine;
 import io.flutter.plugin.common.MethodCall;
@@ -45,11 +46,37 @@ public class MainActivity extends FlutterActivity implements MethodCallHandler {
             Intent intent = new Intent(this, DiscoverActivity.class);
             startActivityForResult(intent, 0);
         } else if(call.method.equals("checkout")){
-
+            Log.d("native", "Checkout");
+            convertData(args.get("items").toString());
         } else {
             result.notImplemented();
         }
 
+    }
+
+    private String customJustify(String data){
+        String justifyText;
+        String[] split = data.split("&");
+        int space = 33 - split[0].length() - split[1].length();
+        justifyText = split[0];
+        for (int i = 0; i < space; i++) {
+            justifyText  += ' ';
+        }
+        justifyText += split[1];
+        return justifyText;
+    }
+
+    private String convertData (String raw){
+        StringBuilder data = new StringBuilder();
+        String[] items = raw.split("[|]");
+        for (String item : items){
+            String[] split = item.split(",");
+            data.append(split[0] + "\n");
+            data.append(customJustify(split[1]) + "\n\n");
+        }
+        Log.d("Native", data.toString());
+
+        return data.toString();
     }
 
     @Override

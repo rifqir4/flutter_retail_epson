@@ -11,8 +11,8 @@ class NativeServices {
     _targetPrinter = response;
   }
 
-  Future checkout() async {
-    var response = await _channel.invokeMethod('checkout');
+  Future checkout(Map<String, dynamic> map) async {
+    var response = await _channel.invokeMethod('checkout', map);
     return response;
   }
 }
