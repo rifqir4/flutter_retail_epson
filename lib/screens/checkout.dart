@@ -32,95 +32,91 @@ class Checkout extends StatelessWidget {
     }
 
     print(keranjang);
-    return Provider<NativeServices>(
-      create: (context) => NativeServices(),
-      child: Scaffold(
-        body: Container(
-          padding: EdgeInsets.symmetric(vertical: 50, horizontal: 20),
-          child: Column(
-            children: [
-              Text('CHECKOUT'),
-              Divider(),
-              Expanded(
-                flex: 1,
-                child: ListView.builder(
-                  itemCount: keranjang.length,
-                  itemBuilder: (context, index) => Container(
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: <Widget>[
-                        Text(
-                          '${keranjang[index].nama} (${keranjang[index].tipe})',
-                          style: TextStyle(fontWeight: FontWeight.bold),
-                        ),
-                        SizedBox(height: 5),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: <Widget>[Text('${keranjang[index].jumlah} X @${_format.format(int.parse(keranjang[index].harga))}'), Text('Rp. ${_format.format(keranjang[index].jumlah * int.parse(keranjang[index].harga))}')],
-                        ),
-                        SizedBox(height: 15)
-                      ],
-                    ),
+    return Scaffold(
+      body: Container(
+        padding: EdgeInsets.symmetric(vertical: 50, horizontal: 20),
+        child: Column(
+          children: [
+            Text('CHECKOUT'),
+            Divider(),
+            Expanded(
+              flex: 1,
+              child: ListView.builder(
+                itemCount: keranjang.length,
+                itemBuilder: (context, index) => Container(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: <Widget>[
+                      Text(
+                        '${keranjang[index].nama} (${keranjang[index].tipe})',
+                        style: TextStyle(fontWeight: FontWeight.bold),
+                      ),
+                      SizedBox(height: 5),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: <Widget>[Text('${keranjang[index].jumlah} X @${_format.format(int.parse(keranjang[index].harga))}'), Text('Rp. ${_format.format(keranjang[index].jumlah * int.parse(keranjang[index].harga))}')],
+                      ),
+                      SizedBox(height: 15)
+                    ],
                   ),
                 ),
               ),
-              Container(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: <Widget>[
-                    const Text('Alamat'),
-                    Text(pelanggan.alamat),
-                    SizedBox(height: 10),
-                    const Text('Keterangan'),
-                    Text(pelanggan.nama),
-                    SizedBox(height: 10),
-                    Divider(),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: <Widget>[Text('Total: '), Text('Rp. $total')],
-                    ),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                      children: <Widget>[
-                        Consumer<NativeServices>(
-                          builder: (context, nativeService, child) {
-                            return RaisedButton.icon(
-                              icon: Icon(Icons.print_outlined),
-                              label: Text('Cetak Struk'),
-                              color: Colors.blue,
-                              onPressed: () {
-                                String target = nativeService.targetPrinter;
-                                String items = _convertData();
+            ),
+            Container(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: <Widget>[
+                  const Text('Alamat'),
+                  Text(pelanggan.alamat),
+                  SizedBox(height: 10),
+                  const Text('Keterangan'),
+                  Text(pelanggan.nama),
+                  SizedBox(height: 10),
+                  Divider(),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: <Widget>[Text('Total: '), Text('Rp. $total')],
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    children: <Widget>[
+                      Consumer<NativeServices>(
+                        builder: (context, nativeService, child) {
+                          return RaisedButton.icon(
+                            icon: Icon(Icons.print_outlined),
+                            label: Text("Cetak Struk"),
+                            color: Colors.blue,
+                            onPressed: () async {
+                              String target = nativeService.targetPrinter;
+                              String items = _convertData();
 
-                                Map<String, dynamic> data = {
-                                  "target": target,
-                                  "items": items,
-                                  "total": total,
-                                  "nama": pelanggan.nama,
-                                  "alamat": pelanggan.alamat,
-                                  "ket": pelanggan.keterangan,
-                                };
-                                NativeServices().checkout(data);
-                                print(data);
-                              },
-                            );
-                          },
-                        ),
-                        RaisedButton.icon(
-                          icon: Icon(Icons.check_box_outlined),
-                          label: Text('Selesai'),
-                          color: Colors.green,
-                          onPressed: () {
-                            Navigator.of(context).pushAndRemoveUntil(MaterialPageRoute(builder: (context) => Kasir()), (route) => false);
-                          },
-                        ),
-                      ],
-                    ),
-                  ],
-                ),
-              )
-            ],
-          ),
+                              Map<String, dynamic> data = {
+                                "target": target,
+                                "items": items,
+                                "total": total,
+                                "nama": pelanggan.nama,
+                                "alamat": pelanggan.alamat,
+                                "ket": pelanggan.keterangan,
+                              };
+                              await nativeService.checkout(data);
+                            },
+                          );
+                        },
+                      ),
+                      RaisedButton.icon(
+                        icon: Icon(Icons.check_box_outlined),
+                        label: Text('Selesai'),
+                        color: Colors.green,
+                        onPressed: () {
+                          Navigator.of(context).pushAndRemoveUntil(MaterialPageRoute(builder: (context) => Kasir()), (route) => false);
+                        },
+                      ),
+                    ],
+                  ),
+                ],
+              ),
+            )
+          ],
         ),
       ),
     );

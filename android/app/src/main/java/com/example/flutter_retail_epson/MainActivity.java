@@ -46,8 +46,12 @@ public class MainActivity extends FlutterActivity implements MethodCallHandler {
             Intent intent = new Intent(this, DiscoverActivity.class);
             startActivityForResult(intent, 0);
         } else if(call.method.equals("checkout")){
-            Log.d("native", "Checkout");
-            convertData(args.get("items").toString());
+//            Log.d("native", "Checkout");
+//            convertData(args.get("items").toString());
+
+            this.result = result;
+            Intent intent = new Intent(this, EpsonActivity.class);
+            startActivityForResult(intent, 123);
         } else {
             result.notImplemented();
         }
@@ -85,6 +89,11 @@ public class MainActivity extends FlutterActivity implements MethodCallHandler {
         if(resultCode == Activity.RESULT_OK){
             if(requestCode == 0){
                 String target = data.getStringExtra("Target");
+                this.result.success(target);
+            }
+
+            if(requestCode == 123){
+                String target = data.getStringExtra("Status");
                 this.result.success(target);
             }
         }

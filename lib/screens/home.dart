@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
-import 'package:flutter_retail_epson/services/native.dart';
+import 'package:provider/provider.dart';
 import 'dart:io';
 
+import 'package:flutter_retail_epson/services/native.dart';
 import '../models/menu.dart';
 import '../widgets/menu_item.dart';
 
@@ -21,8 +21,6 @@ class _HomeState extends State<Home> {
   bool connection = false;
   bool connectionIsChecked = false;
 
-  NativeServices _nativeServices = new NativeServices();
-
   Future<void> _checkconnection() async {
     try {
       await InternetAddress.lookup('google.com');
@@ -37,15 +35,9 @@ class _HomeState extends State<Home> {
     });
   }
 
-  Future<String> discoverPrinter() async {
-    String target;
-    try {
-      await _nativeServices.discoverPrinter();
-    } on PlatformException {
-      print('Failed to get printer');
-    }
-    return target;
-  }
+  // _discoveryPrinter(BuildContext context) {
+  //   var tes = context.read<NativeServices>.discoverPrinter().then((value) => print(value));
+  // }
 
   @override
   void initState() {
@@ -72,13 +64,15 @@ class _HomeState extends State<Home> {
                 ),
                 backgroundColor: Colors.white,
                 actions: [
-                  FlatButton.icon(
-                    onPressed: () {
-                      discoverPrinter().then((value) => print(value));
-                    },
-                    icon: Icon(Icons.print_outlined),
-                    label: Text('Printer'),
-                  )
+                  Consumer<NativeServices>(builder: (context, nativeService, child) {
+                    return FlatButton.icon(
+                      onPressed: () {
+                        nativeService.discoverPrinter();
+                      },
+                      icon: Icon(Icons.print_outlined),
+                      label: Text('Printer'),
+                    );
+                  })
                 ]),
             body: Container(
               child: Column(

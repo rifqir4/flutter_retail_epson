@@ -2,7 +2,7 @@ import 'package:flutter/services.dart';
 
 class NativeServices {
   static const MethodChannel _channel = const MethodChannel('com.example.flutter_retail_epson');
-  String _targetPrinter = "ayamGoreng";
+  String _targetPrinter = "tes";
 
   String get targetPrinter => _targetPrinter;
 
@@ -13,6 +13,6 @@ class NativeServices {
 
   Future checkout(Map<String, dynamic> map) async {
     var response = await _channel.invokeMethod('checkout', map);
-    return response;
+    _targetPrinter = response;
   }
 }
