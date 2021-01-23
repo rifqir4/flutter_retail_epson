@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 import '../models/barang.dart';
@@ -8,6 +10,7 @@ class DatabaseService {
   final CollectionReference barangCollection = FirebaseFirestore.instance.collection('barang');
   final CollectionReference pelangganCollection = FirebaseFirestore.instance.collection('pelanggan');
   final CollectionReference kategoriCollection = FirebaseFirestore.instance.collection('kategori');
+  final CollectionReference belanjaCollection = FirebaseFirestore.instance.collection('belanja');
 
   List<Barang> _barangListFromSnapshot(QuerySnapshot snapshot) {
     return snapshot.docs.map((doc) {
@@ -82,5 +85,11 @@ class DatabaseService {
 
   Stream<List<Kategori>> get kategoris {
     return kategoriCollection.snapshots().map(_kategoriListFromSnapshot);
+  }
+
+  Future belanjas() async {
+    QuerySnapshot tes = await belanjaCollection.get();
+
+    print(tes.docs[0].data()['cart'][0]['jumlah']);
   }
 }

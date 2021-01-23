@@ -34,7 +34,12 @@ class ListKategori extends StatelessWidget {
                               },
                               child: Text(
                                 listKategori[index].nama,
-                                style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold, fontSize: 20),
+                                style: TextStyle(
+                                  color: Colors.white,
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: 20,
+                                ),
+                                textAlign: TextAlign.center,
                               ),
                               color: Colors.blue[800],
                             ),

@@ -15,7 +15,7 @@ class _KasirState extends State<Kasir> {
   Pelanggan pelanggan = Pelanggan(id: '123', nama: 'Rifqi Radifan', alamat: 'Jl. Ikan Piranha Atas', telp: '081334177037', keterangan: 'Didalem');
   int total = 0;
 
-  NumberFormat _format = NumberFormat.currency(locale: "id", symbol: "Rp. ", decimalDigits: 0);
+  final NumberFormat _format = NumberFormat.currency(locale: "id", symbol: "Rp. ", decimalDigits: 0);
 
   void addBarang(Barang barang) {
     int contain = keranjang.isNotEmpty ? keranjang.indexWhere((element) => element.id == barang.id) : null;
@@ -204,7 +204,15 @@ class _KasirState extends State<Kasir> {
                     ),
                     RaisedButton.icon(
                         onPressed: () {
-                          Navigator.of(context).pushNamed('/checkout', arguments: {'keranjang': keranjang, 'pelanggan': pelanggan, 'total': total});
+                          keranjang.length != 0
+                              ? Navigator.of(context).pushNamed('/checkout', arguments: {'keranjang': keranjang, 'pelanggan': pelanggan, 'total': total})
+                              : showDialog(
+                                  context: context,
+                                  builder: (context) => AlertDialog(
+                                    title: Text("Peringatan !!"),
+                                    content: Text("Keranjang Masih Kosong"),
+                                  ),
+                                );
                         },
                         icon: Icon(Icons.shopping_cart_outlined),
                         label: Text('Selesaikan Pembelanjaan'))

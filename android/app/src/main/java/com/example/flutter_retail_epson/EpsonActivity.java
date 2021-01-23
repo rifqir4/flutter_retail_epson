@@ -21,6 +21,12 @@ public class EpsonActivity extends Activity implements ReceiveListener {
 
     private Context mContext = null;
     public static Printer  mPrinter = null;
+    public String mTarget = null;
+    public String items = null;
+    public String total = null;
+    public String nama = null;
+    public String alamat = null;
+    public String ket = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -28,7 +34,12 @@ public class EpsonActivity extends Activity implements ReceiveListener {
         setContentView(R.layout.activity_epson);
 
         mContext = this;
-
+        mTarget = getIntent().getStringExtra("target");
+        items = getIntent().getStringExtra("items");;
+        total = getIntent().getStringExtra("total");;
+        nama = getIntent().getStringExtra("nama");;
+        alamat = getIntent().getStringExtra("alamat");;
+        ket = getIntent().getStringExtra("ket");;
 //        int[] target = {
 //                R.id.btnSampleReceipt,
 //        };
@@ -136,29 +147,35 @@ public class EpsonActivity extends Activity implements ReceiveListener {
             mPrinter.addText(textData.toString());
             textData.delete(0, textData.length());
 
-            method = "addTextAlign";
-            mPrinter.addTextAlign(Printer.ALIGN_LEFT);
-            textData.append(divider);
-            textData.append("Aqua Galon (Eceran)\n");
-            textData.append(customJustify("3x @37.000", "101.000") + "\n\n");
+//            method = "addTextAlign";
+//            mPrinter.addTextAlign(Printer.ALIGN_LEFT);
+//            textData.append(divider);
+//            textData.append("Aqua Galon (Eceran)\n");
+//            textData.append(customJustify("3x @37.000", "101.000") + "\n\n");
+//
+//            textData.append("Raja Lele (Eceran)\n");
+//            textData.append(customJustify("1x @50.000", "50.000") + "\n\n");
+//            mPrinter.addText(textData.toString());
+//            textData.delete(0, textData.length());
 
-            textData.append("Raja Lele (Eceran)\n");
-            textData.append(customJustify("1x @50.000", "50.000") + "\n\n");
-            mPrinter.addText(textData.toString());
-            textData.delete(0, textData.length());
+            mPrinter.addTextAlign(Printer.ALIGN_LEFT);
+            method = "addTextAlign";
+            mPrinter.addText(items);
 
             method = "addText";
             mPrinter.addText(divider);
-            mPrinter.addText(customJustify("TOTAL", "Rp. 151.000"));
+            mPrinter.addText(customJustify("TOTAL", "Rp. " + total));
 
             method = "addFeedLine";
             mPrinter.addFeedLine(1);
             method = "addText";
             textData.append(divider);
+            textData.append("Nama :\n");
+            textData.append(nama + "\n");
             textData.append("Alamat Pelanggan :\n");
-            textData.append("Jl. Piranha Atas\n");
+            textData.append(alamat + "\n");
             textData.append("Keterangan :\n");
-            textData.append("Rifqi Radifan\n");
+            textData.append(ket + "\n");
             method = "addText";
             mPrinter.addText(textData.toString());
             textData.delete(0, textData.length());
@@ -248,7 +265,9 @@ public class EpsonActivity extends Activity implements ReceiveListener {
         }
 
         try {
-            mPrinter.connect("USB:/dev/bus/usb/001/002", Printer.PARAM_DEFAULT);
+//            mPrinter.connect("USB:/dev/bus/usb/001/002", Printer.PARAM_DEFAULT);
+            mPrinter.connect(mTarget, Printer.PARAM_DEFAULT);
+
         }
         catch (Exception e) {
             ShowMsg.showException(e, "connect", mContext);

@@ -75,14 +75,26 @@ class _UpdateBarangState extends State<UpdateBarang> {
                 },
               ),
               SizedBox(height: 20),
-              RaisedButton(
-                child: Text('Update'),
-                onPressed: () async {
-                  // update(barang.id, _currNama ?? barang.nama,
-                  //     _currHarga ?? barang.harga, _currTipe ?? barang.tipe);
-                  await DatabaseService().updateDataBarang(widget.barang.id, _currNama ?? widget.barang.nama, _currHarga ?? widget.barang.harga, _currTipe ?? widget.barang.tipe, _currKategori ?? widget.barang.kategori);
-                  Navigator.pop(context);
-                },
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceAround,
+                children: [
+                  RaisedButton(
+                    child: Text('Cancel'),
+                    color: Colors.red[100],
+                    onPressed: () {
+                      Navigator.pop(context);
+                    },
+                  ),
+                  RaisedButton(
+                    child: Text('Update'),
+                    onPressed: () async {
+                      // update(barang.id, _currNama ?? barang.nama,
+                      //     _currHarga ?? barang.harga, _currTipe ?? barang.tipe);
+                      await DatabaseService().updateDataBarang(widget.barang.id, _currNama ?? widget.barang.nama, _currHarga ?? widget.barang.harga, _currTipe ?? widget.barang.tipe, _currKategori ?? widget.barang.kategori);
+                      Navigator.pop(context);
+                    },
+                  ),
+                ],
               ),
             ],
           ));

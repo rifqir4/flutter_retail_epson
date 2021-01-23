@@ -32,7 +32,16 @@ class MyApp extends StatelessWidget {
           visualDensity: VisualDensity.adaptivePlatformDensity,
         ),
         initialRoute: '/',
-        routes: {'/': (context) => Home(), '/kasir': (context) => Kasir(), '/input-barang': (context) => InputBarangWrapper(), '/input-data': (context) => InputDataWrapper(), '/checkout': (context) => Checkout(), '/list-barang': (context) => ListBarangWrapper(), '/list-pelanggan': (context) => ListPelangganWrapper(), '/list-kategori': (context) => ListKategori()},
+        routes: {
+          '/': (context) => Home(),
+          '/kasir': (context) => Kasir(),
+          '/input-barang': (context) => InputBarangWrapper(),
+          '/input-data': (context) => InputDataWrapper(),
+          '/checkout': (context) => Checkout(),
+          '/list-barang': (context) => ListBarangWrapper(),
+          '/list-pelanggan': (context) => ListPelangganWrapper(),
+          '/list-kategori': (context) => ListKategori(),
+        },
       ),
     );
   }

@@ -22,7 +22,7 @@ class Checkout extends StatelessWidget {
       for (var i = 0; i < keranjang.length; i++) {
         data += keranjang[i].nama + ",";
         data += keranjang[i].jumlah.toString() + "x @" + _format.format(int.parse(keranjang[i].harga)) + "&";
-        data += _format.format(keranjang[i].jumlah * int.parse(keranjang[i].harga)).toString();
+        data += "Rp. " + _format.format(keranjang[i].jumlah * int.parse(keranjang[i].harga)).toString();
         if (i != keranjang.length - 1) {
           data += "|";
         }

@@ -50,12 +50,24 @@ class _UpdatePelangganState extends State<UpdatePelanggan> {
               onChanged: (val) => setState(() => _currKet = val),
             ),
             SizedBox(height: 20),
-            RaisedButton(
-              child: Text('Update'),
-              onPressed: () {
-                DatabaseService().updateDataPelanggan(widget.pelanggan.id, _currNama ?? widget.pelanggan.nama, _currAlamat ?? widget.pelanggan.alamat, _currTelp ?? widget.pelanggan.telp, _currKet ?? widget.pelanggan.keterangan);
-                Navigator.pop(context);
-              },
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
+              children: [
+                RaisedButton(
+                  child: Text('Cancel'),
+                  color: Colors.red[100],
+                  onPressed: () {
+                    Navigator.pop(context);
+                  },
+                ),
+                RaisedButton(
+                  child: Text('Update'),
+                  onPressed: () {
+                    DatabaseService().updateDataPelanggan(widget.pelanggan.id, _currNama ?? widget.pelanggan.nama, _currAlamat ?? widget.pelanggan.alamat, _currTelp ?? widget.pelanggan.telp, _currKet ?? widget.pelanggan.keterangan);
+                    Navigator.pop(context);
+                  },
+                ),
+              ],
             ),
           ],
         ));

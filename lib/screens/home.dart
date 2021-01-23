@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_retail_epson/services/database.dart';
 import 'package:provider/provider.dart';
 import 'dart:io';
 
@@ -20,6 +21,8 @@ class _HomeState extends State<Home> {
 
   bool connection = false;
   bool connectionIsChecked = false;
+
+  DatabaseService _databaseService = new DatabaseService();
 
   Future<void> _checkconnection() async {
     try {
@@ -58,7 +61,7 @@ class _HomeState extends State<Home> {
     return connection
         ? Scaffold(
             appBar: AppBar(
-                title: Text(
+                title: const Text(
                   'Beranda',
                   style: TextStyle(color: Colors.black),
                 ),
@@ -132,6 +135,17 @@ class _HomeState extends State<Home> {
                   ),
                 ],
               ),
+            ),
+            floatingActionButton: FloatingActionButton(
+              onPressed: () async {
+                await _databaseService.belanjas();
+              },
+              child: Icon(
+                Icons.restore,
+                size: 40,
+                color: Colors.white,
+              ),
+              backgroundColor: Colors.blue,
             ),
           )
         : Scaffold(

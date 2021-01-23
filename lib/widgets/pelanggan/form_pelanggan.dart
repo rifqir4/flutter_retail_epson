@@ -63,12 +63,24 @@ class _FormPelangganState extends State<FormPelanggan> {
               onChanged: (val) => _currKet = val,
             ),
             SizedBox(height: 20),
-            RaisedButton(
-              child: Text('Tambah'),
-              onPressed: () async {
-                await DatabaseService().addDataPelanggan(_currNama, _currAlamat, _currTelp, _currKet);
-                Navigator.pop(context);
-              },
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
+              children: [
+                RaisedButton(
+                  child: Text('Cancel'),
+                  color: Colors.red[100],
+                  onPressed: () {
+                    Navigator.pop(context);
+                  },
+                ),
+                RaisedButton(
+                  child: Text('Tambah'),
+                  onPressed: () async {
+                    await DatabaseService().addDataPelanggan(_currNama, _currAlamat, _currTelp, _currKet);
+                    Navigator.pop(context);
+                  },
+                ),
+              ],
             ),
           ],
         ));
