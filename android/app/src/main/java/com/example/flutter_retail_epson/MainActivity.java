@@ -46,25 +46,25 @@ public class MainActivity extends FlutterActivity implements MethodCallHandler {
             Intent intent = new Intent(this, DiscoverActivity.class);
             startActivityForResult(intent, 0);
         } else if(call.method.equals("checkout")){
-            Log.d("native", "Checkout");
-            String target = (String) args.get("target");
-            String items = convertData(args.get("items").toString());
-            String total = args.get("total").toString();
-            String nama = args.get("nama").toString();
-            String alamat = args.get("alamat").toString();
-            String ket = args.get("ket").toString();
-            Log.d("Target", target);
-            Log.d("Native", items);
+            // Log.d("native", "Checkout");
+            // String target = (String) args.get("target");
+            // String items = convertData(args.get("items").toString());
+            // String total = args.get("total").toString();
+            // String nama = args.get("nama").toString();
+            // String alamat = args.get("alamat").toString();
+            // String ket = args.get("ket").toString();
+            // Log.d("Target", target);
+            // Log.d("Native", items);
 
-//            this.result = result;
-//            Intent intent = new Intent(this, EpsonActivity.class);
-//            intent.putExtra("target", (String) args.get("target"));
-//            intent.putExtra("items", convertData((String) args.get("items")));
-//            intent.putExtra("total", (String) args.get("total"));
-//            intent.putExtra("nama", (String) args.get("nama"));
-//            intent.putExtra("alamat", (String) args.get("alamat"));
-//            intent.putExtra("ket", (String) args.get("ket"));
-//            startActivityForResult(intent, 123);
+           this.result = result;
+           Intent intent = new Intent(this, EpsonActivity.class);
+           intent.putExtra("target", (String) args.get("target"));
+           intent.putExtra("items", convertData((String) args.get("items")));
+           intent.putExtra("total", (String) args.get("total"));
+           intent.putExtra("nama", (String) args.get("nama"));
+           intent.putExtra("alamat", (String) args.get("alamat"));
+           intent.putExtra("ket", (String) args.get("ket"));
+           startActivityForResult(intent, 123);
         } else {
             result.notImplemented();
         }
